@@ -1,0 +1,11 @@
+# Validation :
+a valid id checks for foramt if correct move forward.
+
+# Verification :
+a verification is if the user has all info correct from db.
+
+# Authentication :
+a request idefication from which user it came from is called iykyk
+
+# Authorization :
+a user request access handling, what they can do and what they can't
