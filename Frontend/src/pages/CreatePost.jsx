@@ -9,7 +9,8 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData(e.target)
-    axios.post('http://localhost:3000/create-post', formData).then((response) => {
+    const CreatePostUrl = import.meta.env.VITE_BACKEND_CREATE_POST_API_URL || 'http://localhost:3000/api/create-post';
+    axios.post(CreatePostUrl, formData).then((response) => {
       // // alert(response.data.message);
       // // e.target.reset();
       // console.log(response)

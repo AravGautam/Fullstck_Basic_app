@@ -9,9 +9,18 @@ const Feed = () => {
   }]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/posts")
+    console.log("Fetching posts...")
+    const backendUrl = import.meta.env.VITE_BACKEND_POST_API_URL || "http://localhost:3000/api/posts";
+    axios.get(backendUrl)
       .then((response) => {
-        setPosts(response.data.posts);
+        console.log("Full response:", response.data);
+        if (Array.isArray(response.data)) {
+          setPosts(response.data);
+        } else if (Array.isArray(response.data.posts)) {
+          setPosts(response.data.posts);
+        } else {
+          setPosts([]);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -20,20 +29,22 @@ const Feed = () => {
 
 
   return (
-    <div>
-      <section className="feed-section">
-        {
-          posts.length > 0 ? (
-            posts.map((post) => (
-              <div key={post._id} className='post-card'>
-                <img src={post.image} alt={post.caption} />
-                <p>{post.caption}</p>
-              </div>
-            ))
-          ) : (<h1>No posts yet</h1>)
-        }
-      </section>
-    </div>
+    <>
+      <div>
+        <section className="feed-section">
+          {
+            posts.length > 0 ? (
+              posts.map((post) => (
+                <div key={post._id} className='post-card'>
+                  <img src={post.image} alt={post.caption} />
+                  <p>{post.caption}</p>
+                </div>
+              ))
+            ) : (<h1>No posts yet</h1>)
+          }
+        </section>
+      </div>
+    </>
   )
 }
 
