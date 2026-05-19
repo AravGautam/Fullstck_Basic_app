@@ -1,5 +1,6 @@
 const ImageKit = require("@imagekit/nodejs");
 
+// MONGO_URI=mongodb+srv://aravgautam:aravgautam@backend-yt.llvlghj.mongodb.net/Project-1
 const imagekit = new ImageKit({
     publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
     privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
