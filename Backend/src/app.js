@@ -62,7 +62,7 @@ function throttleMiddleware(req, res, next) {
     console.log(timePassed)
     // block if request too fast
     if (timePassed < delay) {
-        console.log("Wait nigga..!!")
+        console.log("Wait nigga..!!",`Please wait ${Math.ceil((delay - timePassed) / 1000)} seconds`)
         return res.status(429).json({
             error: `Please wait ${Math.ceil((delay - timePassed) / 1000)} seconds`
         });
