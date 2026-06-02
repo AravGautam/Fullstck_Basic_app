@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const throttleMiddleware = require("./middleware/throttle");
 const postRoutes = require("./routes/post.routes");
 
 const app = express();
@@ -40,42 +41,11 @@ function rateLimiter(req, res, next) {
 }
 
 
-// ---------------- THROTTLE ----------------
 
-const throttleStore = {};
-
-function throttleMiddleware(req, res, next) {
-    const ip = req.ip;
-    const now = Date.now();
-    const delay = 5 * 1000; // 5 sec
-
-    // first request
-    if (!throttleStore[ip]) {
-        throttleStore[ip] = now;
-        return next();
-    }
-    
-    console.log("Throttle middleware called for:", ip);
-    console.log(throttleStore)
-
-    const timePassed = now - throttleStore[ip];
-    console.log(timePassed)
-    // block if request too fast
-    if (timePassed < delay) {
-        console.log("Wait nigga..!!",`Please wait ${Math.ceil((delay - timePassed) / 1000)} seconds`)
-        return res.status(429).json({
-            error: `Please wait ${Math.ceil((delay - timePassed) / 1000)} seconds`
-        });
-    }
-
-    // update latest request time
-    throttleStore[ip] = now;
-    next();
-}
 
 
 // ---------------- ROUTES ----------------
 
-app.use("/api/", throttleMiddleware, rateLimiter, postRoutes);
+app.use("/api/", throttleMiddleware(), rateLimiter, postRoutes);
 
 module.exports = app;
